@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saisandeep Kandukuri | SQL Portfolio</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --accent3: #d2a8ff;
+    --tag-bg: #1f3d5c;
+    --tag-text: #79c0ff;
+  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+
+  header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 2rem; position: sticky; top: 0; z-index: 100; }
+  .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 28px; height: 28px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #0d1117; font-weight: 700; }
+  nav { display: flex; gap: 1.5rem; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  nav a:hover { color: var(--text); }
+
+  .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 3rem; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.3); color: var(--accent); border-radius: 20px; padding: 4px 14px; font-size: 12px; margin-bottom: 1.5rem; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); }
+  h1 { font-size: 3rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+  h1 span { color: var(--accent); }
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 560px; margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2rem; margin-bottom: 2.5rem; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--accent); color: #0d1117; }
+  .btn-primary:hover { background: #79c0ff; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { background: var(--bg3); }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .section { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+  .section-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .section-sub { color: var(--muted); font-size: 14px; margin-bottom: 2rem; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+  .filter-btn { padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all 0.2s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #0d1117; font-weight: 500; }
+
+  .search-bar { width: 100%; padding: 10px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; margin-bottom: 1.5rem; outline: none; }
+  .search-bar:focus { border-color: var(--accent); }
+  .search-bar::placeholder { color: var(--muted); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .day-badge { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .skill-tag { background: var(--tag-bg); color: var(--tag-text); font-size: 11px; padding: 2px 10px; border-radius: 12px; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+  .card p { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-foot { display: flex; align-items: center; justify-content: space-between; }
+  .focus-tag { font-size: 11px; color: var(--accent3); background: rgba(210, 168, 255, 0.1); padding: 2px 10px; border-radius: 12px; }
+  .expand-hint { font-size: 12px; color: var(--muted); }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
+  .modal-header { padding: 1.5rem 1.5rem 0; display: flex; justify-content: space-between; align-items: flex-start; }
+  .modal-header h2 { font-size: 1.2rem; font-weight: 600; flex: 1; padding-right: 1rem; }
+  .close-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .close-btn:hover { color: var(--text); }
+  .modal-body { padding: 1.25rem 1.5rem 1.5rem; }
+  .modal-section { margin-bottom: 1.2rem; }
+  .modal-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+  .modal-text { font-size: 14px; color: var(--text); line-height: 1.6; }
+  pre { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; overflow-x: auto; font-size: 13px; line-height: 1.6; }
+  code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; color: #e6edf3; }
+  .kw { color: #ff7b72; }
+  .fn { color: #d2a8ff; }
+  .str { color: #a5d6ff; }
+  .col { color: #79c0ff; }
+  .cmt { color: #8b949e; font-style: italic; }
+  .insight-box { background: rgba(63, 185, 80, 0.07); border: 1px solid rgba(63, 185, 80, 0.2); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .insight-box .label { font-size: 11px; color: var(--accent2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .insight-box p { font-size: 13px; color: var(--text); margin: 0; }
+  .copy-btn { display: flex; align-items: center; gap: 6px; background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+  .copy-btn.copied { color: var(--accent2); border-color: var(--accent2); }
+  .tags-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .hashtag { font-size: 11px; color: var(--accent); }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .about-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .about-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--accent); }
+  .about-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .skills-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .skill-pill { background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-size: 12px; padding: 3px 12px; border-radius: 20px; font-family: monospace; }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  .no-results { text-align: center; padding: 3rem; color: var(--muted); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">SK</div>
+      SQL Portfolio
+    </div>
+    <nav>
+      <a href="#queries">Queries</a>
+      <a href="#about">About</a>
+      <a href="https://linkedin.com/in/ksaisandeep" target="_blank">LinkedIn ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span> Open to Data Analyst roles · Hyderabad</div>
+  <h1>30 Days of SQL<br><span>from Operations to Data</span></h1>
+  <p class="hero-sub">I spent 5+ years managing warehouse and fulfillment operations. Now I'm proving I can turn that operational intuition into data-driven insights — one SQL query at a time.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">30</div><div class="stat-label">SQL Queries</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Focus Areas</div></div>
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years Ops Exp.</div></div>
+  </div>
+  <div class="hero-btns">
+    <a href="#queries" class="btn btn-primary">Browse All Queries</a>
+    <a href="https://linkedin.com/in/ksaisandeep" class="btn btn-outline" target="_blank">Connect on LinkedIn</a>
+  </div>
+</div>
+
+<div class="section" id="queries">
+  <div class="section-title">All 30 SQL Queries</div>
+  <div class="section-sub">Each query solves a real operational problem. Click any card to see the full code and business insight.</div>
+  <input class="search-bar" type="text" placeholder="Search queries, skills, or focus areas..." id="searchInput" />
+  <div class="filters" id="filterBtns">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="Inventory">Inventory</button>
+    <button class="filter-btn" data-filter="Sales">Sales</button>
+    <button class="filter-btn" data-filter="Logistics">Logistics</button>
+    <button class="filter-btn" data-filter="Workforce">Workforce</button>
+    <button class="filter-btn" data-filter="Customer">Customer</button>
+    <button class="filter-btn" data-filter="Product">Product</button>
+    <button class="filter-btn" data-filter="Warehouse">Warehouse</button>
+  </div>
+  <div class="grid" id="queryGrid"></div>
+  <div class="no-results" id="noResults" style="display:none">No queries match your search.</div>
+</div>
+
+<div class="section" id="about">
+  <div class="section-title">About This Project</div>
+  <div class="section-sub">A career transition story backed by real SQL work</div>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>The Story</h3>
+      <p>After 5+ years managing warehouse and fulfillment operations at Walmart Canada — leading teams of 45–50 associates, overseeing inbound/outbound logistics, and tracking KPIs — I realized the data behind operations was where the real decisions lived.<br><br>This project demonstrates my ability to translate operational problems into SQL queries that deliver business value.</p>
+    </div>
+    <div class="about-card">
+      <h3>The Database</h3>
+      <p>Built a simulated warehouse & logistics schema from scratch with 8 interconnected tables: employees, customers, orders, order_items, products, inventory, warehouses, shipments, and freight_companies.<br><br>All 30 queries run against this schema and solve real problems I encountered as an Operations Manager.</p>
+    </div>
+    <div class="about-card">
+      <h3>SQL Skills Covered</h3>
+      <div class="skills-list">
+        <span class="skill-pill">COUNT / SUM / AVG</span>
+        <span class="skill-pill">GROUP BY / HAVING</span>
+        <span class="skill-pill">JOINs</span>
+        <span class="skill-pill">LEFT JOIN + IS NULL</span>
+        <span class="skill-pill">Subqueries</span>
+        <span class="skill-pill">CTEs (WITH)</span>
+        <span class="skill-pill">Window Functions</span>
+        <span class="skill-pill">LAG()</span>
+        <span class="skill-pill">EXTRACT(DOW)</span>
+        <span class="skill-pill">INTERVAL</span>
+        <span class="skill-pill">Date Arithmetic</span>
+        <span class="skill-pill">COUNT(DISTINCT)</span>
+      </div>
+    </div>
+    <div class="about-card">
+      <h3>Contact</h3>
+      <p>
+        📧 kandukurisaisandeep@gmail.com<br>
+        📱 +91 8686314848<br>
+        📍 Hyderabad, Telangana<br>
+        ✅ Immediately Available<br><br>
+        <a href="https://linkedin.com/in/ksaisandeep" style="color: var(--accent);">linkedin.com/in/ksaisandeep ↗</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Built by <a href="https://linkedin.com/in/ksaisandeep">Saisandeep Kandukuri</a> · 30-Day SQL Portfolio Project · 2025</p>
+</footer>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const queries = [
+  { day: 1, title: "Understanding Our Workforce Size", focus: "Workforce", skill: "COUNT(*)", hook: "Knowing your team size is fundamental — it sets the baseline for all workforce analysis and resource planning.", question: "What is the total number of employees in our organization?", code: `SELECT COUNT(*) FROM employees;`, insight: "This foundational metric drives resource planning, budgeting, and understanding the scale of operations.", action: "Compare against previous periods or targets to inform hiring strategies and efficiency reviews.", tags: ["#DataAnalytics","#SQL","#WorkforcePlanning"] },
+  { day: 2, title: "Identifying Our Most Valuable Customers", focus: "Customer", skill: "SUM, GROUP BY, ORDER BY", hook: "Not all customers are equal. Understanding who drives the most revenue helps prioritize service and allocate resources.", question: "Which customers have the highest total purchase amount?", code: `SELECT c.first_name, c.last_name,\n       SUM(o.total_amount) AS total_sales\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id, c.first_name, c.last_name\nORDER BY total_sales DESC;`, insight: "Highlights our highest-spending customers — the ones driving the most revenue for the business.", action: "Develop loyalty programs, offer personalized service, or analyze purchasing patterns for growth opportunities.", tags: ["#CustomerAnalytics","#SQL","#SalesStrategy"] },
+  { day: 3, title: "Proactive Stock Management: Low Inventory Alerts", focus: "Inventory", skill: "JOIN, WHERE", hook: "Unexpected stock-outs are one of the biggest headaches in warehouse operations — they disrupt fulfillment and frustrate customers.", question: "Which products are nearing critical low-stock levels across our warehouses?", code: `SELECT p.product_name, w.warehouse_name,\n       i.quantity\nFROM inventory i\nJOIN products p ON i.product_id = p.product_id\nJOIN warehouses w ON i.warehouse_id = w.warehouse_id\nWHERE i.quantity < 50\nORDER BY i.quantity ASC;`, insight: "Provides an immediate snapshot of potential stock-out risks, highlighting specific products and locations.", action: "Trigger urgent reorders, transfer stock between warehouses, or adjust sales forecasts to prevent disruptions.", tags: ["#InventoryManagement","#SQL","#WarehouseOperations"] },
+  { day: 4, title: "Benchmarking Sales: Average Order Value", focus: "Sales", skill: "AVG()", hook: "High order volume is good, but the value per order tells a different story about profitability.", question: "What is the typical value of a customer transaction?", code: `SELECT AVG(total_amount) AS average_order_value\nFROM orders;`, insight: "The AOV gives a single metric to understand customer spending habits and overall sales health.", action: "Marketing can strategize on increasing basket size; operations can estimate resource needs per order.", tags: ["#SalesAnalytics","#SQL","#BusinessMetrics"] },
+  { day: 5, title: "Discovering Our Bestsellers by Volume", focus: "Product", skill: "SUM, GROUP BY, LIMIT", hook: "Every warehouse has its stars — the products that fly off the shelves. Identifying them is crucial for inventory planning.", question: "Which products are our absolute bestsellers in terms of units sold?", code: `SELECT p.product_name,\n       SUM(oi.quantity) AS total_quantity_sold\nFROM order_items oi\nJOIN products p ON oi.product_id = p.product_id\nGROUP BY p.product_name\nORDER BY total_quantity_sold DESC\nLIMIT 5;`, insight: "Reveals the products most popular with customers by sales volume.", action: "Ensure these items are always well-stocked and strategically placed; marketing can leverage their popularity.", tags: ["#ProductAnalytics","#SQL","#InventoryOptimization"] },
+  { day: 6, title: "Tracking Revenue Trends: Monthly Sales Performance", focus: "Sales", skill: "TO_CHAR, SUM, GROUP BY", hook: "Understanding revenue trends is paramount — monthly sales patterns reveal seasonal demand and growth opportunities.", question: "What is our total revenue on a monthly basis?", code: `SELECT TO_CHAR(order_date, 'YYYY-MM') AS sales_month,\n       SUM(total_amount) AS monthly_revenue\nFROM orders\nGROUP BY sales_month\nORDER BY sales_month;`, insight: "A clear chronological view of monthly revenue makes it easy to spot trends and compare performance over time.", action: "Crucial for financial reporting, sales forecasting, and informed decisions about resource allocation.", tags: ["#FinancialAnalytics","#SQL","#SalesTrends"] },
+  { day: 7, title: "Monitoring Workforce Growth: Recent Hires", focus: "Workforce", skill: "NOW(), INTERVAL, WHERE", hook: "Rapid growth means rapid hiring. Keeping track of new team members is essential for onboarding and integration.", question: "Which employees joined the company within the last year?", code: `SELECT first_name, last_name, hire_date\nFROM employees\nWHERE hire_date >= NOW() - INTERVAL '1 year'\nORDER BY hire_date DESC;`, insight: "Provides a list of newest team members, indicating recent growth and potential training needs.", action: "HR and Operations can track onboarding progress, assign mentors, or plan team integration activities.", tags: ["#HRAnalytics","#SQL","#WorkforceManagement"] },
+  { day: 8, title: "Optimizing Space: Warehouse Capacity Utilization", focus: "Warehouse", skill: "SUM, JOIN, Arithmetic", hook: "Warehouse space is a premium. Underutilized space is wasted money; overutilized space creates operational risk.", question: "What is the capacity utilization percentage for each warehouse?", code: `SELECT w.warehouse_name, w.capacity_sq_ft,\n       SUM(i.quantity * p.weight_kg) AS current_weight_kg,\n       ROUND((SUM(i.quantity * p.weight_kg) / w.capacity_sq_ft) * 100, 2)\n         AS utilization_pct\nFROM warehouses w\nJOIN inventory i ON w.warehouse_id = i.warehouse_id\nJOIN products p ON i.product_id = p.product_id\nGROUP BY w.warehouse_name, w.capacity_sq_ft\nORDER BY utilization_pct DESC;`, insight: "Shows how effectively each warehouse is using its storage space — a crucial efficiency metric.", action: "High utilization signals need for expansion; low utilization suggests consolidation opportunities.", tags: ["#WarehouseOperations","#SQL","#CapacityPlanning"] },
+  { day: 9, title: "Monitoring Order Fulfillment: Pending & Processing Orders", focus: "Sales", skill: "WHERE, IN operator", hook: "In a fast-paced environment, orders can get stuck. Visibility into the backlog is vital to prevent SLA breaches.", question: "Which orders are still pending or in processing — not yet shipped?", code: `SELECT order_id, order_date, order_status\nFROM orders\nWHERE order_status IN ('Pending', 'Processing')\nORDER BY order_date ASC;`, insight: "Immediate visibility into the current order backlog, highlighting orders that require attention.", action: "Operations teams can prioritize tasks, investigate delays, and ensure smooth order flow through the system.", tags: ["#OrderManagement","#SQL","#Fulfillment"] },
+  { day: 10, title: "Evaluating Freight Partner Costs", focus: "Logistics", skill: "SUM, GROUP BY", hook: "Shipping costs can significantly impact profitability. Scrutinizing freight expenses ensures we get best carrier value.", question: "What is the total shipping cost incurred with each freight company?", code: `SELECT fc.company_name,\n       SUM(s.shipping_cost) AS total_shipping_cost\nFROM freight_companies fc\nJOIN shipments s ON fc.company_id = s.company_id\nGROUP BY fc.company_name\nORDER BY total_shipping_cost DESC;`, insight: "Clearly shows which freight companies are costing the most, providing a basis for cost analysis.", action: "Empower logistics managers to negotiate contracts, identify savings, or reallocate to more economical carriers.", tags: ["#LogisticsAnalytics","#SQL","#FreightManagement"] },
+  { day: 11, title: "Identifying Stagnant Products: Never Been Sold", focus: "Product", skill: "LEFT JOIN, IS NULL", hook: "Products gathering dust in the warehouse tie up capital and valuable storage space.", question: "Which products in our catalog have never generated a single sale?", code: `SELECT p.product_name\nFROM products p\nLEFT JOIN order_items oi\n  ON p.product_id = oi.product_id\nWHERE oi.product_id IS NULL;`, insight: "Pinpoints products that are not selling — indicating potential issues with marketing, pricing, or product appeal.", action: "Trigger promotional campaigns, price adjustments, or discontinuation decisions to free up space and capital.", tags: ["#ProductManagement","#SQL","#InventoryOptimization"] },
+  { day: 12, title: "Recognizing Our Loyal Customers", focus: "Customer", skill: "COUNT, GROUP BY, HAVING", hook: "Repeat customers are the backbone of any successful business — they represent stable, predictable demand.", question: "Which customers have placed more than 10 orders with us?", code: `SELECT c.first_name, c.last_name,\n       COUNT(o.order_id) AS total_orders\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id, c.first_name, c.last_name\nHAVING COUNT(o.order_id) > 10\nORDER BY total_orders DESC;`, insight: "Highlights our most frequent buyers — often our most profitable and loyal customers.", action: "Prime candidates for exclusive offers, VIP treatment, or feedback programs to enhance lifetime value.", tags: ["#CustomerLoyalty","#SQL","#CRM"] },
+  { day: 13, title: "Fair Compensation: Average Salary by Job Title", focus: "Workforce", skill: "AVG, GROUP BY", hook: "Fair compensation is crucial for employee morale and retention in any operations environment.", question: "What is the average salary for each job title in the organization?", code: `SELECT job_title,\n       ROUND(AVG(salary), 2) AS average_salary\nFROM employees\nGROUP BY job_title\nORDER BY average_salary DESC;`, insight: "Provides a clear overview of salary distribution across roles — essential for HR and management.", action: "Inform salary reviews, budget planning, and ensure compensation packages remain competitive.", tags: ["#HRAnalytics","#SQL","#EmployeeCompensation"] },
+  { day: 14, title: "Total Product Stock Across All Warehouses", focus: "Inventory", skill: "SUM, GROUP BY", hook: "Sometimes you need a bird's-eye view: the total stock of each product across the entire network.", question: "What is the total available stock for each product across all warehouses?", code: `SELECT p.product_name,\n       SUM(i.quantity) AS total_stock\nFROM inventory i\nJOIN products p ON i.product_id = p.product_id\nGROUP BY p.product_name\nORDER BY total_stock DESC;`, insight: "Provides a high-level view of total product availability, irrespective of location.", action: "Vital for strategic purchasing decisions, understanding overall demand, and identifying globally overstocked items.", tags: ["#InventoryManagement","#SQL","#SupplyChain"] },
+  { day: 15, title: "Identifying Logistics Bottlenecks: Late Shipments", focus: "Logistics", skill: "INTERVAL, WHERE, JOIN", hook: "Late shipments are not a minor inconvenience — they are a direct threat to brand reputation and customer satisfaction.", question: "Which shipments took more than 7 days from dispatch to delivery?", code: `SELECT s.shipment_id, s.tracking_number,\n       s.shipment_date, s.delivery_date,\n       fc.company_name\nFROM shipments s\nJOIN freight_companies fc\n  ON s.company_id = fc.company_id\nWHERE s.delivery_date > s.shipment_date + INTERVAL '7 days'\n  AND s.shipment_status = 'Delivered'\nORDER BY s.delivery_date ASC;`, insight: "Provides concrete evidence of delivery delays, allowing quantification of the problem and identification of responsible carriers.", action: "Invaluable for performance reviews with freight partners, optimizing routes, or adjusting customer SLAs.", tags: ["#LogisticsAnalytics","#SQL","#DeliveryPerformance"] },
+  { day: 16, title: "Understanding Customer Purchase Diversity", focus: "Customer", skill: "COUNT(DISTINCT), HAVING", hook: "Some customers buy one thing repeatedly; others explore. Understanding this diversity helps in cross-selling strategies.", question: "Which orders contain more than 3 distinct product types?", code: `SELECT o.order_id,\n       COUNT(DISTINCT oi.product_id) AS distinct_products_count\nFROM orders o\nJOIN order_items oi ON o.order_id = oi.order_id\nGROUP BY o.order_id\nHAVING COUNT(DISTINCT oi.product_id) > 3\nORDER BY distinct_products_count DESC;`, insight: "Reveals orders with high product diversity — customers who are actively exploring the catalog.", action: "Inform cross-selling strategies, bundle promotions, or identify categories that attract diverse purchases.", tags: ["#CustomerBehavior","#SQL","#SalesAnalytics"] },
+  { day: 17, title: "Product Portfolio Breakdown by Category", focus: "Product", skill: "COUNT, GROUP BY", hook: "Clear product categorization is essential for warehouse layout planning and picking efficiency.", question: "How many products fall into each category in our catalog?", code: `SELECT category,\n       COUNT(product_id) AS product_count\nFROM products\nGROUP BY category\nORDER BY product_count DESC;`, insight: "Gives a clear picture of the product mix, highlighting dominant categories and niche areas.", action: "Inform purchasing decisions, marketing focus, and warehouse slotting strategies for optimal storage.", tags: ["#ProductManagement","#SQL","#CategoryAnalysis"] },
+  { day: 18, title: "Who Manages Our Warehouses?", focus: "Warehouse", skill: "JOIN", hook: "Knowing who is responsible for each facility is key to accountability, communication, and operational clarity.", question: "Which employees are designated as managers for specific warehouses?", code: `SELECT e.first_name, e.last_name,\n       w.warehouse_name\nFROM employees e\nJOIN warehouses w\n  ON e.employee_id = w.manager_id;`, insight: "Provides a clear mapping of warehouse managers to their facilities — essential for organizational clarity.", action: "Crucial for HR, senior management, and inter-warehouse communication with clear lines of responsibility.", tags: ["#SQL","#WarehouseLeadership","#OrganizationalStructure"] },
+  { day: 19, title: "Measuring Sales Momentum: Month-over-Month Growth", focus: "Sales", skill: "CTE (WITH), LAG(), Window Functions", hook: "Sales growth figures are more powerful than static totals. MoM trends reveal acceleration or demand shifts.", question: "What is the percentage change in sales revenue from one month to the next?", code: `WITH MonthlySales AS (\n  SELECT TO_CHAR(order_date, 'YYYY-MM') AS sales_month,\n         SUM(total_amount) AS monthly_revenue\n  FROM orders\n  GROUP BY sales_month\n  ORDER BY sales_month\n)\nSELECT\n  sales_month,\n  monthly_revenue,\n  LAG(monthly_revenue, 1) OVER (ORDER BY sales_month)\n    AS prev_month_revenue,\n  ROUND(\n    (monthly_revenue - LAG(monthly_revenue,1) OVER (ORDER BY sales_month))\n    * 100.0 /\n    NULLIF(LAG(monthly_revenue,1) OVER (ORDER BY sales_month), 0)\n  , 2) AS growth_pct\nFROM MonthlySales;`, insight: "Dynamic view of sales performance — highlights periods of acceleration or deceleration.", action: "Invaluable for strategic planning, adjusting production schedules, and optimizing marketing spend.", tags: ["#SalesAnalytics","#SQL","#WindowFunctions","#Forecasting"] },
+  { day: 20, title: "Re-engaging Our Inactive Customers", focus: "Customer", skill: "LEFT JOIN, IS NULL, INTERVAL", hook: "Customer churn is a silent killer. Retaining existing customers is more cost-effective than acquiring new ones.", question: "Which customers haven't placed an order in the last 6 months?", code: `SELECT c.first_name, c.last_name, c.email\nFROM customers c\nLEFT JOIN orders o ON c.customer_id = o.customer_id\nWHERE o.order_date IS NULL\n   OR o.order_date < NOW() - INTERVAL '6 months'\nGROUP BY c.customer_id, c.first_name, c.last_name, c.email\nORDER BY c.last_name;`, insight: "Provides a direct list of customers at risk of churning or who have already become inactive.", action: "Launch targeted email campaigns, special offers, or personalized outreach to win back these customers.", tags: ["#CustomerRetention","#SQL","#CRM"] },
+  { day: 21, title: "Freight Carrier Volume Analysis", focus: "Logistics", skill: "SUM, JOIN, GROUP BY", hook: "Understanding which carriers handle the most volume is key to managing relationships and negotiating contracts.", question: "What is the total number of product units shipped by each freight company?", code: `SELECT fc.company_name,\n       SUM(oi.quantity) AS total_products_shipped\nFROM freight_companies fc\nJOIN shipments s ON fc.company_id = s.company_id\nJOIN order_items oi ON s.order_id = oi.order_id\nGROUP BY fc.company_name\nORDER BY total_products_shipped DESC;`, insight: "Shows which freight companies handle the largest volume of products.", action: "Crucial for strategic partnership management — ensure critical carriers are performing optimally.", tags: ["#LogisticsAnalytics","#SQL","#CarrierManagement"] },
+  { day: 22, title: "Identifying Our Premium Products by Price", focus: "Product", skill: "AVG, GROUP BY, LIMIT", hook: "Not all products contribute equally to revenue. Understanding premium vs. high-volume items drives smarter strategy.", question: "Which are our top 10 highest-priced products by average unit price?", code: `SELECT product_name,\n       ROUND(AVG(unit_price), 2) AS average_unit_price\nFROM products\nGROUP BY product_name\nORDER BY average_unit_price DESC\nLIMIT 10;`, insight: "Highlights top-tier products by price — often correlated with higher profit margins.", action: "Inform pricing strategies, premium marketing campaigns, and ensure valuable products get proper handling.", tags: ["#ProductAnalytics","#SQL","#PricingStrategy"] },
+  { day: 23, title: "Warehouse Product Diversity Analysis", focus: "Warehouse", skill: "COUNT(DISTINCT), GROUP BY", hook: "Some warehouses specialize; others are generalists. Product diversity reveals operational complexity.", question: "Which warehouses stock the widest variety of distinct products?", code: `SELECT w.warehouse_name,\n       COUNT(DISTINCT i.product_id) AS distinct_product_count\nFROM warehouses w\nJOIN inventory i ON w.warehouse_id = i.warehouse_id\nGROUP BY w.warehouse_name\nORDER BY distinct_product_count DESC;`, insight: "Reveals which warehouses handle the most diverse product ranges — indicating operational flexibility.", action: "Inform decisions about warehouse specialization, cross-docking strategies, or staff training programs.", tags: ["#WarehouseOperations","#SQL","#LogisticsStrategy"] },
+  { day: 24, title: "Identifying High-Earning Employees by Salary Benchmark", focus: "Workforce", skill: "Subquery, WHERE", hook: "Identifying employees compensated above average can reveal specialized roles and high-value contributors.", question: "Which employees earn above the company-wide average salary?", code: `SELECT first_name, last_name, salary\nFROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees)\nORDER BY salary DESC;`, insight: "Highlights employees compensated above average — potentially indicating higher skill sets or critical roles.", action: "Used by HR for talent development, succession planning, and reviewing compensation structures.", tags: ["#HRAnalytics","#SQL","#CompensationAnalysis"] },
+  { day: 25, title: "Understanding Weekend Sales Patterns", focus: "Sales", skill: "EXTRACT(DOW)", hook: "Operational staffing and resource allocation depend on when demand peaks — weekends can behave very differently.", question: "Which orders were placed on weekends (Saturday and Sunday)?", code: `SELECT order_id, order_date\nFROM orders\nWHERE EXTRACT(DOW FROM order_date) IN (0, 6);`, insight: "Reveals whether a significant portion of business occurs outside standard weekdays.", action: "Crucial for optimizing weekend staffing, warehouse operations, and targeted weekend marketing campaigns.", tags: ["#SalesAnalytics","#SQL","#DemandPlanning"] },
+  { day: 26, title: "Revenue Contribution by Product Category", focus: "Product", skill: "SUM, JOIN, GROUP BY", hook: "Not all product categories contribute equally to the bottom line. Knowing which drive revenue helps prioritize resources.", question: "What is the total sales revenue generated by each product category?", code: `SELECT p.category,\n       ROUND(SUM(oi.quantity * oi.unit_price), 2)\n         AS total_category_sales\nFROM order_items oi\nJOIN products p ON oi.product_id = p.product_id\nGROUP BY p.category\nORDER BY total_category_sales DESC;`, insight: "Clearly shows which product categories are the biggest revenue drivers.", action: "Essential for strategic product development, marketing budget allocation, and supply chain prioritization.", tags: ["#SalesAnalytics","#SQL","#RevenueAnalysis"] },
+  { day: 27, title: "Benchmarking Freight Carrier Costs per Shipment", focus: "Logistics", skill: "AVG, JOIN, GROUP BY", hook: "Total shipping costs matter, but average cost per shipment is the real benchmark for carrier efficiency.", question: "What is the average shipping cost charged by each freight company?", code: `SELECT fc.company_name,\n       ROUND(AVG(s.shipping_cost), 2) AS avg_shipping_cost\nFROM freight_companies fc\nJOIN shipments s ON fc.company_id = s.company_id\nGROUP BY fc.company_name\nORDER BY avg_shipping_cost DESC;`, insight: "Provides a clear average cost per shipment for each carrier, allowing direct comparison.", action: "Crucial for negotiating better rates, optimizing carrier selection, and improving logistics budget management.", tags: ["#LogisticsAnalytics","#SQL","#CostEfficiency"] },
+  { day: 28, title: "Identifying Completely Out-of-Stock Products", focus: "Inventory", skill: "LEFT JOIN, GROUP BY, HAVING", hook: "Zero stock across all warehouses is a critical operational failure — it means complete inability to fulfill demand.", question: "Which products are completely out of stock across our entire warehouse network?", code: `SELECT p.product_name\nFROM products p\nLEFT JOIN inventory i ON p.product_id = i.product_id\nGROUP BY p.product_name\nHAVING SUM(i.quantity) IS NULL\n    OR SUM(i.quantity) = 0;`, insight: "Provides an immediate critical alert for products that are entirely unavailable.", action: "Triggers urgent procurement actions, customer service communications, and marketing adjustments.", tags: ["#InventoryManagement","#SQL","#StockOuts","#CriticalAlerts"] },
+  { day: 29, title: "Recognizing Most Engaged Customers (Last Month)", focus: "Customer", skill: "COUNT, GROUP BY, INTERVAL, LIMIT", hook: "Recent engagement is a strong indicator of current satisfaction and immediate sales potential.", question: "Who are the top 5 customers by number of orders placed in the past month?", code: `SELECT c.first_name, c.last_name,\n       COUNT(o.order_id) AS orders_last_month\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nWHERE o.order_date >= NOW() - INTERVAL '1 month'\nGROUP BY c.customer_id, c.first_name, c.last_name\nORDER BY orders_last_month DESC\nLIMIT 5;`, insight: "Highlights currently most engaged customers actively contributing to recent sales.", action: "Use for immediate marketing efforts, personalized outreach, or identifying successful recent product launches.", tags: ["#CustomerAnalytics","#SQL","#RecentActivity"] },
+  { day: 30, title: "Warehouse Shipment Volume Analysis", focus: "Warehouse", skill: "COUNT, GROUP BY", hook: "Different warehouses handle different volumes. Understanding throughput per facility is crucial for staffing and benchmarking.", question: "What is the total number of shipments originating from each warehouse?", code: `SELECT w.warehouse_name,\n       COUNT(s.shipment_id) AS total_shipments\nFROM warehouses w\nJOIN shipments s ON w.warehouse_id = s.warehouse_id\nGROUP BY w.warehouse_name\nORDER BY total_shipments DESC;`, insight: "Clearly shows the outbound shipment volume for each warehouse, indicating operational workload.", action: "Vital for resource planning, identifying high-performing warehouses, and optimizing logistics networks.", tags: ["#WarehouseOperations","#SQL","#ThroughputAnalysis"] }
+];
+
+let activeFilter = 'all';
+let searchTerm = '';
+
+function renderCards() {
+  const grid = document.getElementById('queryGrid');
+  const noRes = document.getElementById('noResults');
+  const filtered = queries.filter(q => {
+    const matchFilter = activeFilter === 'all' || q.focus.includes(activeFilter);
+    const matchSearch = !searchTerm ||
+      q.title.toLowerCase().includes(searchTerm) ||
+      q.skill.toLowerCase().includes(searchTerm) ||
+      q.focus.toLowerCase().includes(searchTerm) ||
+      q.hook.toLowerCase().includes(searchTerm);
+    return matchFilter && matchSearch;
+  });
+  grid.innerHTML = filtered.map(q => `
+    <div class="card" onclick="openModal(${q.day - 1})">
+      <div class="card-top">
+        <span class="day-badge">Day ${q.day}</span>
+        <span class="skill-tag">${q.skill.split(',')[0].trim()}</span>
+      </div>
+      <h3>${q.title}</h3>
+      <p>${q.hook}</p>
+      <div class="card-foot">
+        <span class="focus-tag">${q.focus}</span>
+        <span class="expand-hint">View query →</span>
+      </div>
+    </div>
+  `).join('');
+  noRes.style.display = filtered.length === 0 ? 'block' : 'none';
+}
+
+function openModal(idx) {
+  const q = queries[idx];
+  document.getElementById('modalTitle').textContent = `Day ${q.day}: ${q.title}`;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-label">The Hook</div>
+      <div class="modal-text">${q.hook}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">The Data Question</div>
+      <div class="modal-text">${q.question}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">SQL · ${q.skill}</div>
+      <pre><code>${q.code}</code></pre>
+      <button class="copy-btn" onclick="copyCode(${idx}, this)">📋 Copy SQL</button>
+    </div>
+    <div class="insight-box">
+      <div class="label">💡 The Insight</div>
+      <p>${q.insight}</p>
+    </div>
+    <div class="insight-box" style="background: rgba(88,166,255,0.07); border-color: rgba(88,166,255,0.2);">
+      <div class="label" style="color: var(--accent);">⚡ The Action</div>
+      <p>${q.action}</p>
+    </div>
+    <div class="tags-row">${q.tags.map(t => `<span class="hashtag">${t}</span>`).join('')}</div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+function copyCode(idx, btn) {
+  navigator.clipboard.writeText(queries[idx].code).then(() => {
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy SQL'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase();
+  renderCards();
+});
+
+renderCards();
+</script>
+</body>
+</html>
